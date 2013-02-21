@@ -2,13 +2,13 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 
 RUBY_FAKEGEM_EXTRADOC="README.rdoc"
 #  Actualy there is no test. "rake test" just got the error.
 RUBY_FAKEGEM_TASK_TEST=""
 
-USE_RUBY="ruby18 ruby19"
+USE_RUBY="jruby ruby18 ruby19"
 
 inherit ruby-fakegem
 DESCRIPTION="Gem provides enforced-type functionality to Arrays"
