@@ -2,11 +2,11 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: $
 
-EAPI=4
+EAPI=5
 
 RUBY_FAKEGEM_EXTRADOC="README"
 
-USE_RUBY="ruby18 ruby19"
+USE_RUBY="jruby ruby18 ruby19"
 
 inherit ruby-fakegem
 DESCRIPTION="A Ruby library that lets you memoize methods"
