@@ -17,7 +17,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE=""
 
 RDEPEND="virtual/emacs
-	 dev-python/pygobject
+	 dev-python/pygobject:2
 	 dev-python/python-xlib
 	 >=app-i18n/ibus-1.4[python]
 	 !>=app-i18n/ibus-1.4.99"
