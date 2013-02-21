@@ -1,0 +1,20 @@
+--- lib/gorg/base.rb.orig
++++ lib/gorg/base.rb
+@@ -89,7 +89,7 @@
+       }
+     else
+       # Scan xml for stylesheet names
+-      path.each { |line| styles << $1 if regexp.match(line) }
++      path.each_line { |line| styles << $1 if regexp.match(line) }
+     end
+     # Use default stylesheet if none were found in the doc
+     styles << $Config["defaultXSL"] if styles.length == 0
+@@ -338,7 +338,7 @@
+   
+   private
+   def parseConfig(h, config)
+-    config.each {|line|
++    config.each_line {|line|
+       line.strip!
+       next if line.length == 0 or line[0,1] == '#' # Skip blank lines and comments
+       raise "Invalid Configuration (#{line})" unless line =~ /^([a-zA-Z_]*)\s*=\s*/

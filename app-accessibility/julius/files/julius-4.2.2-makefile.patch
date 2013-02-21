@@ -1,0 +1,296 @@
+diff -ru julius-4.2.2.orig/adinrec/Makefile.in julius-4.2.2/adinrec/Makefile.in
+--- julius-4.2.2.orig/adinrec/Makefile.in	2012-07-27 17:44:48.000000000 +0900
++++ julius-4.2.2/adinrec/Makefile.in	2013-01-30 11:34:38.624136686 +0900
+@@ -37,7 +37,7 @@
+ 
+ install.bin: $(TARGET)
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ ############################################################
+ 
+diff -ru julius-4.2.2.orig/adintool/Makefile.in julius-4.2.2/adintool/Makefile.in
+--- julius-4.2.2.orig/adintool/Makefile.in	2012-07-27 17:44:48.000000000 +0900
++++ julius-4.2.2/adintool/Makefile.in	2013-01-30 11:34:38.625136675 +0900
+@@ -37,7 +37,7 @@
+ 
+ install.bin: $(TARGET)
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ ############################################################
+ 
+diff -ru julius-4.2.2.orig/generate-ngram/Makefile.in julius-4.2.2/generate-ngram/Makefile.in
+--- julius-4.2.2.orig/generate-ngram/Makefile.in	2012-07-27 17:44:48.000000000 +0900
++++ julius-4.2.2/generate-ngram/Makefile.in	2013-01-30 11:34:38.625136675 +0900
+@@ -34,7 +34,7 @@
+ 
+ install.bin: $(TARGET)
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ clean:
+ 	$(RM) $(OBJ) *~ core
+diff -ru julius-4.2.2.orig/gramtools/accept_check/Makefile.in julius-4.2.2/gramtools/accept_check/Makefile.in
+--- julius-4.2.2.orig/gramtools/accept_check/Makefile.in	2012-07-27 17:44:48.000000000 +0900
++++ julius-4.2.2/gramtools/accept_check/Makefile.in	2013-01-30 11:34:38.625136675 +0900
+@@ -37,7 +37,7 @@
+ 
+ install.bin: $(TARGET)
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ ############################################################
+ 
+diff -ru julius-4.2.2.orig/gramtools/dfa_determinize/Makefile.in julius-4.2.2/gramtools/dfa_determinize/Makefile.in
+--- julius-4.2.2.orig/gramtools/dfa_determinize/Makefile.in	2012-07-27 17:44:48.000000000 +0900
++++ julius-4.2.2/gramtools/dfa_determinize/Makefile.in	2013-01-30 11:34:38.626136664 +0900
+@@ -36,7 +36,7 @@
+ 
+ install.bin: $(TARGET)
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ ############################################################
+ 
+diff -ru julius-4.2.2.orig/gramtools/dfa_minimize/Makefile.in julius-4.2.2/gramtools/dfa_minimize/Makefile.in
+--- julius-4.2.2.orig/gramtools/dfa_minimize/Makefile.in	2012-07-27 17:44:48.000000000 +0900
++++ julius-4.2.2/gramtools/dfa_minimize/Makefile.in	2013-01-30 11:34:38.626136664 +0900
+@@ -35,7 +35,7 @@
+ 
+ install.bin: $(TARGET)
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ ############################################################
+ 
+diff -ru julius-4.2.2.orig/gramtools/generate/Makefile.in julius-4.2.2/gramtools/generate/Makefile.in
+--- julius-4.2.2.orig/gramtools/generate/Makefile.in	2012-07-27 17:44:48.000000000 +0900
++++ julius-4.2.2/gramtools/generate/Makefile.in	2013-01-30 11:34:38.626136664 +0900
+@@ -36,7 +36,7 @@
+ 
+ install.bin: $(TARGET)
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ ############################################################
+ 
+diff -ru julius-4.2.2.orig/gramtools/gram2sapixml/Makefile.in julius-4.2.2/gramtools/gram2sapixml/Makefile.in
+--- julius-4.2.2.orig/gramtools/gram2sapixml/Makefile.in	2012-07-27 17:44:48.000000000 +0900
++++ julius-4.2.2/gramtools/gram2sapixml/Makefile.in	2013-01-30 11:34:38.626136664 +0900
+@@ -18,7 +18,7 @@
+ 
+ install.bin:
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ clean:
+ 	echo nothing to do
+diff -ru julius-4.2.2.orig/gramtools/mkdfa/Makefile.in julius-4.2.2/gramtools/mkdfa/Makefile.in
+--- julius-4.2.2.orig/gramtools/mkdfa/Makefile.in	2012-07-27 17:44:48.000000000 +0900
++++ julius-4.2.2/gramtools/mkdfa/Makefile.in	2013-01-30 11:34:38.627136653 +0900
+@@ -19,12 +19,12 @@
+ install:
+ 	(cd $(SUBDIR); $(MAKE) install)
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ install.bin:
+ 	(cd $(SUBDIR); $(MAKE) install.bin)
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ clean:
+ 	(cd $(SUBDIR); $(MAKE) clean)
+diff -ru julius-4.2.2.orig/gramtools/mkdfa/mkfa-1.44-flex/Makefile.in julius-4.2.2/gramtools/mkdfa/mkfa-1.44-flex/Makefile.in
+--- julius-4.2.2.orig/gramtools/mkdfa/mkfa-1.44-flex/Makefile.in	2012-07-27 17:44:48.000000000 +0900
++++ julius-4.2.2/gramtools/mkdfa/mkfa-1.44-flex/Makefile.in	2013-01-30 11:34:38.627136653 +0900
+@@ -44,7 +44,7 @@
+ 
+ install.bin:
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ clean:
+ 	$(RM) *.o *~ core
+diff -ru julius-4.2.2.orig/gramtools/nextword/Makefile.in julius-4.2.2/gramtools/nextword/Makefile.in
+--- julius-4.2.2.orig/gramtools/nextword/Makefile.in	2012-07-27 17:44:49.000000000 +0900
++++ julius-4.2.2/gramtools/nextword/Makefile.in	2013-01-30 11:34:38.627136653 +0900
+@@ -37,7 +37,7 @@
+ 
+ install.bin: $(TARGET)
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ ############################################################
+ 
+diff -ru julius-4.2.2.orig/gramtools/yomi2voca/Makefile.in julius-4.2.2/gramtools/yomi2voca/Makefile.in
+--- julius-4.2.2.orig/gramtools/yomi2voca/Makefile.in	2012-07-27 17:44:49.000000000 +0900
++++ julius-4.2.2/gramtools/yomi2voca/Makefile.in	2013-01-30 11:34:38.628136642 +0900
+@@ -18,7 +18,7 @@
+ 
+ install.bin:
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ clean:
+ 	echo nothing to do
+diff -ru julius-4.2.2.orig/jclient-perl/Makefile.in julius-4.2.2/jclient-perl/Makefile.in
+--- julius-4.2.2.orig/jclient-perl/Makefile.in	2012-07-27 17:44:49.000000000 +0900
++++ julius-4.2.2/jclient-perl/Makefile.in	2013-01-30 11:34:38.628136642 +0900
+@@ -18,7 +18,7 @@
+ 
+ install.bin:
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ clean:
+ 	echo nothing to do
+diff -ru julius-4.2.2.orig/jcontrol/Makefile.in julius-4.2.2/jcontrol/Makefile.in
+--- julius-4.2.2.orig/jcontrol/Makefile.in	2012-07-27 17:44:49.000000000 +0900
++++ julius-4.2.2/jcontrol/Makefile.in	2013-01-30 11:34:38.628136642 +0900
+@@ -32,7 +32,7 @@
+ 
+ install.bin: $(TARGET)
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ clean:
+ 	$(RM) $(OBJ)
+diff -ru julius-4.2.2.orig/julius/Makefile.in julius-4.2.2/julius/Makefile.in
+--- julius-4.2.2.orig/julius/Makefile.in	2012-07-27 17:44:49.000000000 +0900
++++ julius-4.2.2/julius/Makefile.in	2013-01-30 11:34:38.628136642 +0900
+@@ -26,10 +26,10 @@
+ ## install
+ prefix=@prefix@
+ exec_prefix=@exec_prefix@
+-bindir=@bindir@
+-libdir=@libdir@
+-includedir=@includedir@
+-mandir=@mandir@
++bindir=$(DESTDIR)/@bindir@
++libdir=$(DESTDIR)/@libdir@
++includedir=$(DESTDIR)/@includedir@
++mandir=$(DESTDIR)/@mandir@
+ INSTALL=@INSTALL@
+ INSTALL_DATA=@INSTALL_DATA@
+ INSTALL_PROGRAM=@INSTALL_PROGRAM@
+diff -ru julius-4.2.2.orig/libjulius/Makefile.in julius-4.2.2/libjulius/Makefile.in
+--- julius-4.2.2.orig/libjulius/Makefile.in	2012-07-27 17:44:49.000000000 +0900
++++ julius-4.2.2/libjulius/Makefile.in	2013-01-30 11:34:38.629136631 +0900
+@@ -26,9 +26,9 @@
+ ## install
+ prefix=@prefix@
+ exec_prefix=@exec_prefix@
+-bindir=@bindir@
+-libdir=@libdir@
+-includedir=@includedir@
++bindir=$(DESTDIR)/@bindir@
++libdir=$(DESTDIR)/@libdir@
++includedir=$(DESTDIR)/@includedir@
+ INSTALL=@INSTALL@
+ INSTALL_DATA=@INSTALL_DATA@
+ INSTALL_PROGRAM=@INSTALL_PROGRAM@
+diff -ru julius-4.2.2.orig/libsent/Makefile.in julius-4.2.2/libsent/Makefile.in
+--- julius-4.2.2.orig/libsent/Makefile.in	2012-07-27 17:44:50.000000000 +0900
++++ julius-4.2.2/libsent/Makefile.in	2013-01-30 11:34:38.629136631 +0900
+@@ -25,9 +25,9 @@
+ ## install
+ prefix=@prefix@
+ exec_prefix=@exec_prefix@
+-bindir=@bindir@
+-libdir=@libdir@
+-includedir=@includedir@
++bindir=$(DESTDIR)/@bindir@
++libdir=$(DESTDIR)/@libdir@
++includedir=$(DESTDIR)/@includedir@
+ INSTALL=@INSTALL@
+ INSTALL_DATA=@INSTALL_DATA@
+ INSTALL_PROGRAM=@INSTALL_PROGRAM@
+diff -ru julius-4.2.2.orig/man/Makefile.in julius-4.2.2/man/Makefile.in
+--- julius-4.2.2.orig/man/Makefile.in	2012-07-27 17:44:57.000000000 +0900
++++ julius-4.2.2/man/Makefile.in	2013-01-30 11:34:38.629136631 +0900
+@@ -19,16 +19,16 @@
+ install: install.man install.man.ja
+ 
+ install.man:
+-	${INSTALL} -d @mandir@/man1
++	${INSTALL} -d $(DESTDIR)/@mandir@/man1
+ 	for f in *.1; do \
+-	  @INSTALL_DATA@ $$f @mandir@/man1/$$f; \
++	  @INSTALL_DATA@ $$f $(DESTDIR)@mandir@/man1/$$f; \
+ 	done
+ 
+ install.man.ja:
+-	${INSTALL} -d @mandir@/ja/man1
++	${INSTALL} -d $(DESTDIR)/@mandir@/ja/man1
+ 	cd ja;
+ 	for f in *.1; do \
+-	  @INSTALL_DATA@ $$f @mandir@/ja/man1/$$f; \
++	  @INSTALL_DATA@ $$f $(DESTDIR)/@mandir@/ja/man1/$$f; \
+ 	done
+ 	cd ..
+ 
+diff -ru julius-4.2.2.orig/mkbingram/Makefile.in julius-4.2.2/mkbingram/Makefile.in
+--- julius-4.2.2.orig/mkbingram/Makefile.in	2012-07-27 17:44:57.000000000 +0900
++++ julius-4.2.2/mkbingram/Makefile.in	2013-01-30 11:34:38.630136620 +0900
+@@ -33,7 +33,7 @@
+ 
+ install.bin: $(TARGET)
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ clean:
+ 	$(RM) $(OBJ)
+diff -ru julius-4.2.2.orig/mkbinhmm/Makefile.in julius-4.2.2/mkbinhmm/Makefile.in
+--- julius-4.2.2.orig/mkbinhmm/Makefile.in	2012-07-27 17:44:57.000000000 +0900
++++ julius-4.2.2/mkbinhmm/Makefile.in	2013-01-30 11:34:38.630136620 +0900
+@@ -33,7 +33,7 @@
+ 
+ install.bin: mkbinhmm@EXEEXT@ mkbinhmmlist@EXEEXT@
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ mkbinhmm@EXEEXT@ mkbinhmmlist@EXEEXT@ @bindir@
++	@INSTALL_PROGRAM@ mkbinhmm@EXEEXT@ mkbinhmmlist@EXEEXT@ $(DESTDIR)@bindir@
+ 
+ clean:
+ 	$(RM) mkbinhmm.o mkbinhmmlist.o
+diff -ru julius-4.2.2.orig/mkgshmm/Makefile.in julius-4.2.2/mkgshmm/Makefile.in
+--- julius-4.2.2.orig/mkgshmm/Makefile.in	2012-07-27 17:44:57.000000000 +0900
++++ julius-4.2.2/mkgshmm/Makefile.in	2013-01-30 11:34:38.630136620 +0900
+@@ -24,7 +24,7 @@
+ 
+ install.bin: $(TARGET)
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ ############################################################
+ 
+diff -ru julius-4.2.2.orig/mkss/Makefile.in julius-4.2.2/mkss/Makefile.in
+--- julius-4.2.2.orig/mkss/Makefile.in	2012-07-27 17:44:57.000000000 +0900
++++ julius-4.2.2/mkss/Makefile.in	2013-01-30 11:34:38.632136597 +0900
+@@ -37,7 +37,7 @@
+ 
+ install.bin: $(TARGET)
+ 	${INSTALL} -d @bindir@
+-	@INSTALL_PROGRAM@ $(TARGET) @bindir@
++	@INSTALL_PROGRAM@ $(TARGET) $(DESTDIR)/@bindir@
+ 
+ ############################################################
+ 

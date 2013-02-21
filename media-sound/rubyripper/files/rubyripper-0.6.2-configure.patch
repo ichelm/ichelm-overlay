@@ -1,0 +1,24 @@
+--- configure_	2012-09-19 11:58:35.898080525 +0900
++++ configure	2012-09-19 11:21:27.447939983 +0900
+@@ -113,7 +113,11 @@
+ 		require 'gtk2'
+ 		puts "ruby-gtk2 bindings found"
+ 	rescue LoadError
+-		puts "ruby-gtk2 is not found. The graphical frontend won't work!"
++          puts "ruby-gtk2 is not found. The graphical frontend won't work!"
++        rescue
++          # see issue 514
++          puts "Warning: ruby-gtk2 is not working in your current environment."
++
+ 	end
+ 	
+ 	puts "\nTesting support for freedb metadata fetching..."
+@@ -147,7 +151,7 @@
+ 			elsif line =~ /ICONDIR=/
+ 				file[index] = "ICONDIR=[ENV['PWD'], \"#{$PREFIX + $ICONDIR}\"]"
+ 			elsif line =~ /RUBYDIR=/
+-				file[index] = "RUBYDIR=[ENV['PWD'], File.dirname(__FILE__), \"#{$PREFIX + $RUBYDIR}\"]"
++				file[index] = "RUBYDIR=[ENV['PWD'], File.dirname(__FILE__), RbConfig::CONFIG[\"sitelibdir\"]]"
+ 				break
+ 			end
+ 			index += 1

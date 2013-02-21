@@ -1,0 +1,11 @@
+--- lib/gorg/base.rb.orig	2011-11-27 21:32:58.460358194 +0900
++++ lib/gorg/base.rb	2011-11-27 21:33:33.259923137 +0900
+@@ -338,7 +338,7 @@
+   
+   private
+   def parseConfig(h, config)
+-    config.each {|line|
++    config.each_line {|line|
+       line.strip!
+       next if line.length == 0 or line[0,1] == '#' # Skip blank lines and comments
+       raise "Invalid Configuration (#{line})" unless line =~ /^([a-zA-Z_]*)\s*=\s*/

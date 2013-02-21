@@ -1,0 +1,22 @@
+diff --git a/lib/gorg/cache.rb b/lib/gorg/cache.rb
+index 543b6a2..84654b7 100644
+--- a/lib/gorg/cache.rb
++++ b/lib/gorg/cache.rb
+@@ -22,7 +22,7 @@
+ #  . a list of parameters as received by a webserver e.g.
+ #  . a list of files it depends on
+ 
+-require "parsedate"
++require "time"
+ require "fileutils"
+ require "find"
+ require "digest"
+@@ -106,7 +106,7 @@ module Cache
+       
+         fst = File.stat(f)
+         raise "Size of #{f} has changed from #{fst.size} to #{s.to_i}" unless fst.size == s.to_i
+-        raise "Timestamp of #{f} has changed" unless Time.utc(*ParseDate.parsedate(d)) == fst.mtime.utc
++        raise "Timestamp of #{f} has changed" unless Time.parse(d).utc == fst.mtime.utc
+       end
+       mline = meta.shift
+     end

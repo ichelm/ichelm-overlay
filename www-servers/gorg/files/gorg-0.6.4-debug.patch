@@ -1,0 +1,33 @@
+--- lib/gorg/base.rb.orig	2011-11-27 21:32:58.460358194 +0900
++++ lib/gorg/base.rb	2011-12-05 19:38:57.789386450 +0900
+@@ -81,13 +81,16 @@
+     # Look for stylesheet href (there can be more than one)
+     regexp = Regexp.new('<\?xml-stylesheet.*href="([^"]*)".*')
+     l = $Config["headXSL"] ; styles = Array.new
++    puts ("in base.rb. if FileTest statement is invoked")
+     if FileTest.file?(path) then
++      path.each_line { |line| styles << $1 if regexp.match(line) }
+       # Path is indeed a file name
+-      IO.foreach(path) { |line|
+-        styles << $1 if regexp.match(line)
+-        break if (l-=1) == 0
+-      }
++      # IO.foreach(path) { |line|
++      #   styles << $1 if regexp.match(line)
++      #   break if (l-=1) == 0
++      # }
+     else
++      puts ("in base.rb. if FileTest else statement is invoked")
+       # Scan xml for stylesheet names
+       path.each { |line| styles << $1 if regexp.match(line) }
+     end
+@@ -338,7 +341,8 @@
+   
+   private
+   def parseConfig(h, config)
+-    config.each {|line|
++    puts ("Config file parsing start.\n")
++    config.each_line {|line|
+       line.strip!
+       next if line.length == 0 or line[0,1] == '#' # Skip blank lines and comments
+       raise "Invalid Configuration (#{line})" unless line =~ /^([a-zA-Z_]*)\s*=\s*/
