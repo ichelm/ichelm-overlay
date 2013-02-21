@@ -1,0 +1,29 @@
+Index: trunk/src/VBox/Additions/common/VBoxGuest/VBoxGuest-linux.c
+===================================================================
+--- VirtualBox-4.2.6/src/VBox/Additions/common/VBoxGuest/VBoxGuest-linux.c
++++ VirtualBox-4.2.6/src/VBox/Additions/common/VBoxGuest/VBoxGuest-linux.c
+@@ -197,5 +197,9 @@
+ 
+ /** PCI hotplug structure. */
+-static const struct pci_device_id __devinitdata g_VBoxGuestPciId[] =
++static const struct pci_device_id
++#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 8, 0)
++__devinitdata
++#endif
++g_VBoxGuestPciId[] =
+ {
+     {
+
+--- vboxguest/VBoxGuest-linux.c
++++ vboxguest/VBoxGuest-linux.c
+@@ -197,5 +197,9 @@
+ 
+ /** PCI hotplug structure. */
+-static const struct pci_device_id __devinitdata g_VBoxGuestPciId[] =
++static const struct pci_device_id
++#if LINUX_VERSION_CODE < KERNEL_VERSION(3, 8, 0)
++__devinitdata
++#endif
++g_VBoxGuestPciId[] =
+ {
+     {
