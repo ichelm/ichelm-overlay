@@ -21,12 +21,13 @@ KEYWORDS="~amd64 ~x86"
 SLOT="0"
 IUSE=""
 
-ruby_add_bdepend "test? ( dev-ruby/test-unit:2 )"
+ruby_add_bdepend "test? ( dev-ruby/test-unit-rr )"
 
 all_ruby_prepare() {
 	# Why is run-test.rb is missing on gem!?
 	# Hackish. fix later.
-	cp "${FILESDIR}"/run-test.rb test
+	cp "${FILESDIR}/${P}-run-test.rb" test/run-test.rb
+	# Hackish...
 	mv doc doc.orig
 }
 
