@@ -4,9 +4,10 @@
 
 EAPI=5
 
+RUBY_FAKEGEM_RECIPE_DOC="rdoc"
 RUBY_FAKEGEM_EXTRADOC="README.rdoc"
 #  Actualy there is no test. "rake test" just got the error.
-RUBY_FAKEGEM_TASK_TEST=""
+RUBY_FAKEGEM_RECIPE_TEST=""
 
 USE_RUBY="jruby ruby18 ruby19"
 
