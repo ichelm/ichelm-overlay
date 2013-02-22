@@ -24,7 +24,14 @@ IUSE=""
 ruby_add_bdepend "test? ( dev-ruby/test-unit:2 )"
 
 all_ruby_prepare() {
+	# Why is run-test.rb is missing on gem!?
+	# Hackish. fix later.
+	cp "${FILESDIR}"/run-test.rb test
 	mv doc doc.orig
+}
+
+each_ruby_test() {
+	${RUBY} test/run-test.rb || die "tests failed"
 }
 
 all_ruby_install() {
