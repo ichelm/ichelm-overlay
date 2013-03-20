@@ -1,0 +1,76 @@
+Build bindings in source tree.
+
+diff --git a/bindings/perl/Makefile.PL b/bindings/perl/Makefile.PL
+index 554892e..894971b 100644
+--- a/bindings/perl/Makefile.PL
++++ b/bindings/perl/Makefile.PL
+@@ -2,6 +2,6 @@ use ExtUtils::MakeMaker;
+ 
+ WriteMakefile(
+     'NAME'   => 'marisa',
+-    'LIBS'   => ['-lmarisa'],
++    'LIBS'   => ['-L../../lib/.libs -lmarisa'],
+     'OBJECT' => 'marisa-swig.o marisa-swig_wrap.o'
+ );
+diff --git a/bindings/perl/marisa-swig.h b/bindings/perl/marisa-swig.h
+index f09a9a7..aa7a7e7 100644
+--- a/bindings/perl/marisa-swig.h
++++ b/bindings/perl/marisa-swig.h
+@@ -1,7 +1,7 @@
+ #ifndef MARISA_SWIG_H_
+ #define MARISA_SWIG_H_
+ 
+-#include <marisa.h>
++#include "../../lib/marisa.h"
+ 
+ namespace marisa_swig {
+ 
+diff --git a/bindings/python/marisa-swig.h b/bindings/python/marisa-swig.h
+index f09a9a7..aa7a7e7 100644
+--- a/bindings/python/marisa-swig.h
++++ b/bindings/python/marisa-swig.h
+@@ -1,7 +1,7 @@
+ #ifndef MARISA_SWIG_H_
+ #define MARISA_SWIG_H_
+ 
+-#include <marisa.h>
++#include "../../lib/marisa.h"
+ 
+ namespace marisa_swig {
+ 
+diff --git a/bindings/python/setup.py b/bindings/python/setup.py
+index 402226f..68b4130 100644
+--- a/bindings/python/setup.py
++++ b/bindings/python/setup.py
+@@ -2,6 +2,7 @@ from distutils.core import setup, Extension
+ 
+ marisa_module = Extension("_marisa",
+                           sources=["marisa-swig_wrap.cxx", "marisa-swig.cxx"],
++                          library_dirs=["../../lib/.libs"],
+                           libraries=["marisa"])
+ 
+ setup(name = "marisa",
+diff --git a/bindings/ruby/extconf.rb b/bindings/ruby/extconf.rb
+index 0a7b8a8..573998d 100644
+--- a/bindings/ruby/extconf.rb
++++ b/bindings/ruby/extconf.rb
+@@ -1,5 +1,5 @@
+ require "mkmf"
+ 
+-have_library("marisa")
++find_library("marisa", "", "../../lib/.libs")
+ 
+ create_makefile("marisa")
+diff --git a/bindings/ruby/marisa-swig.h b/bindings/ruby/marisa-swig.h
+index f09a9a7..aa7a7e7 100644
+--- a/bindings/ruby/marisa-swig.h
++++ b/bindings/ruby/marisa-swig.h
+@@ -1,7 +1,7 @@
+ #ifndef MARISA_SWIG_H_
+ #define MARISA_SWIG_H_
+ 
+-#include <marisa.h>
++#include "../../lib/marisa.h"
+ 
+ namespace marisa_swig {
+ 
