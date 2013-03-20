@@ -4,6 +4,7 @@
 
 EAPI=5
 PYTHON_COMPAT=( python2_7 )
+GENTOO_DEPEND_ON_PERL="no"
 
 inherit eutils perl-module python-r1
 
@@ -17,7 +18,7 @@ KEYWORDS="~amd64 ~x86"
 IUSE="doc perl python ruby sse2 sse3 ssse3 sse4 static-libs"
 
 DEPEND="virtual/pkgconfig
-		perl? ( dev-lang/perl )
+		perl? ( dev-lang/perl[-build] )
 		python? ( ${PYTHON_DEPS} )
 		ruby? ( dev-lang/ruby:1.9 )"
 
