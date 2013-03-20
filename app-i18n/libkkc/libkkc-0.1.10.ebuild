@@ -19,6 +19,7 @@ IUSE="introspection static-libs vala"
 REQUIRED_USE="vala? ( introspection )"
 
 DEPEND="dev-libs/json-glib
+		dev-libs/libgee:0
 		dev-libs/marisa-trie
 		introspection? ( dev-libs/gobject-introspection )
 		vala? ( $(vala_depend) )"
