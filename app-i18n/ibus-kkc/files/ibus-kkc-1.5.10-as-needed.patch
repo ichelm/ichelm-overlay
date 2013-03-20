@@ -1,0 +1,28 @@
+diff --git a/src/Makefile.am b/src/Makefile.am
+index 2e95b86..fe95ae6 100644
+--- a/src/Makefile.am
++++ b/src/Makefile.am
+@@ -51,9 +51,9 @@ ibus_engine_kkc_CFLAGS =			\
+ 	$(GTK_CFLAGS)
+ 
+ ibus_engine_kkc_LDADD =				\
++	libutil.la				\
+ 	$(COMMON_LIBS)				\
+-	$(GTK_LIBS)				\
+-	libutil.la
++	$(GTK_LIBS)
+ 
+ ibus_engine_kkc_SOURCES =			\
+ 	engine.vala
+@@ -70,9 +70,9 @@ ibus_setup_kkc_CFLAGS =				\
+ 	$(GTK_CFLAGS)
+ 
+ ibus_setup_kkc_LDADD =				\
++	libutil.la				\
+ 	$(COMMON_LIBS)				\
+-	$(GTK_LIBS)				\
+-	libutil.la
++	$(GTK_LIBS)
+ 
+ ibus_setup_kkc_SOURCES =			\
+ 	setup.vala
