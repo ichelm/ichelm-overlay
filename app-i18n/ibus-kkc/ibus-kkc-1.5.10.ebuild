@@ -16,7 +16,7 @@ IUSE=""
 
 DEPEND=">=app-i18n/ibus-1.4
 		>=app-i18n/libkkc-0.1.10
-		>=dev-libs/json-glib-0.15
+		dev-libs/json-glib
 		x11-libs/gtk+:3"
 RDEPEND="${DEPEND}"
 
