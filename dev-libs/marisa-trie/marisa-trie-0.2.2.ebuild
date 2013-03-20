@@ -7,7 +7,7 @@ inherit eutils
 
 DESCRIPTION="Matching Algorithm with Recursively Implemented StorAge"
 HOMEPAGE="https://code.google.com/p/marisa-trie/"
-SRC_URI="https://marisa-trie.googlecode.com/files/${P}.tar.gz"
+SRC_URI="https://marisa-trie.googlecode.com/files/${PN/-trie}-${PV}.tar.gz"
 
 LICENSE="BSD"
 SLOT="0"
