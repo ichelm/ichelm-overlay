@@ -1,28 +1,25 @@
+From cef0a34fe0c21e960fe5f5d67a5e9ceda8aac6d0 Mon Sep 17 00:00:00 2001
+From: Daiki Ueno <ueno@unixuser.org>
+Date: Fri, 22 Mar 2013 17:14:11 +0900
+Subject: [PATCH] Link libutil.la with COMMON_LIBS for explicit DSO linking
+
+---
+ src/Makefile.am |    2 ++
+ 1 files changed, 2 insertions(+), 0 deletions(-)
+
 diff --git a/src/Makefile.am b/src/Makefile.am
-index 2e95b86..fe95ae6 100644
+index 2e95b86..a755541 100644
 --- a/src/Makefile.am
 +++ b/src/Makefile.am
-@@ -51,9 +51,9 @@ ibus_engine_kkc_CFLAGS =			\
- 	$(GTK_CFLAGS)
+@@ -16,6 +16,8 @@ libutil_la_SOURCES =				\
+ 	plist.vala
+ libutil_la_CFLAGS =				\
+ 	$(COMMON_CFLAGS)
++libutil_la_LIBADD =				\
++	$(COMMON_LIBS)
  
- ibus_engine_kkc_LDADD =				\
-+	libutil.la				\
- 	$(COMMON_LIBS)				\
--	$(GTK_LIBS)				\
--	libutil.la
-+	$(GTK_LIBS)
+ BUILT_SOURCES = ibus-kkc.vapi
  
- ibus_engine_kkc_SOURCES =			\
- 	engine.vala
-@@ -70,9 +70,9 @@ ibus_setup_kkc_CFLAGS =				\
- 	$(GTK_CFLAGS)
- 
- ibus_setup_kkc_LDADD =				\
-+	libutil.la				\
- 	$(COMMON_LIBS)				\
--	$(GTK_LIBS)				\
--	libutil.la
-+	$(GTK_LIBS)
- 
- ibus_setup_kkc_SOURCES =			\
- 	setup.vala
+-- 
+1.7.1
+
