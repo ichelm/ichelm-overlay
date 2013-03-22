@@ -6,7 +6,7 @@ EAPI=5
 VALA_MIN_API_VERSION="0.16"
 VALA_USE_DEPEND="vapigen"
 
-inherit eutils vala
+inherit autotools eutils vala
 
 DESCRIPTION="Japanese Kana Kanji conversion library"
 HOMEPAGE="https://bitbucket.org/libkkc/libkkc/wiki/Home"
@@ -25,6 +25,11 @@ DEPEND="dev-libs/json-glib
 		vala? ( $(vala_depend) )"
 RDEPEND="${DEPEND}
 		app-i18n/libkkc-data"
+
+src_prepare() {
+	epatch ${FILESDIR}/${P}-underlinking.patch
+	eautoreconf
+}
 
 src_configure() {
 	econf \
