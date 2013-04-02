@@ -4,7 +4,7 @@
 
 EAPI=2
 
-inherit eutils linux-mod user
+inherit eutils linux-mod udev user
 
 MY_PV="${PV/beta/BETA}"
 MY_PV="${PV/rc/RC}"
@@ -152,12 +152,12 @@ src_install() {
 		fi
 
 		# udev rule for vboxdrv
-		dodir /lib/udev/rules.d
+		dodir "$(get_udevdir)"/rules.d
 		echo 'KERNEL=="vboxguest", OWNER="vboxguest", GROUP="vboxguest", MODE="0660"' \
-		>> "${D}/lib/udev/rules.d/60-virtualbox-guest-additions.rules" \
+		>> "${D}/$(get_udevdir)/rules.d/60-virtualbox-guest-additions.rules" \
 			|| die
 		echo 'KERNEL=="vboxuser", OWNER="vboxguest", GROUP="vboxguest", MODE="0660"' \
-		>> "${D}/lib/udev/rules.d/60-virtualbox-guest-additions.rules" \
+		>> "${D}/$(get_udevdir)/rules.d/60-virtualbox-guest-additions.rules" \
 			|| die
 
 		# VBoxClient autostart file
