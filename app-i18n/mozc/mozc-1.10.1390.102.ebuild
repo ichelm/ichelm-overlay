@@ -63,7 +63,7 @@ src_configure() {
 		export GYP_DEFINES="${GYP_DEFINES} enable_gtk_renderer=0"
 	fi
 
-	"$(PYTHON)" build_mozc.py gyp ${myconf} || die "gyp failed"
+	V=1 "$(PYTHON)" build_mozc.py gyp ${myconf} || die "gyp failed"
 }
 
 src_compile() {
@@ -82,8 +82,8 @@ src_compile() {
 		mytarget="${mytarget} gui/gui.gyp:mozc_tool"
 	fi
 
-	"$(PYTHON)" build_mozc.py build_tools -c "${BUILDTYPE}" ${myjobs} || die
-	"$(PYTHON)" build_mozc.py build -c "${BUILDTYPE}" ${mytarget} ${myjobs} || die
+	V=1 "$(PYTHON)" build_mozc.py build_tools -c "${BUILDTYPE}" ${myjobs} || die
+	V=1 "$(PYTHON)" build_mozc.py build -c "${BUILDTYPE}" ${mytarget} ${myjobs} || die
 
 	if use emacs ; then
 		elisp-compile unix/emacs/*.el || die
