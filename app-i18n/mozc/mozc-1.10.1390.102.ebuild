@@ -1,8 +1,8 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: $
+# $Header: /var/cvsroot/gentoo-x86/app-i18n/mozc/mozc-1.6.1187.102.ebuild,v 1.2 2013/03/02 19:28:02 hwoarang Exp $
 
-EAPI=3
+EAPI="3"
 PYTHON_DEPEND="2"
 inherit elisp-common eutils multilib multiprocessing python toolchain-funcs
 
@@ -50,9 +50,12 @@ src_unpack() {
 	mv protobuf-${PROTOBUF_VER} files
 }
 
+src_prepare() {
+	epatch "${FILESDIR}/${P}-gcc48.patch"
+}
+
 src_configure() {
-	local myconf="--channel_dev=0"
-	myconf+=" --server_dir=/usr/$(get_libdir)/mozc"
+	local myconf=" --server_dir=/usr/$(get_libdir)/mozc"
 
 	if ! use qt4 ; then
 		myconf+=" --noqt"
