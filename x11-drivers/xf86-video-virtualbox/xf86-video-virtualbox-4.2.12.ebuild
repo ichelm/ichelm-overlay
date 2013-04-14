@@ -18,7 +18,7 @@ SLOT="0"
 KEYWORDS="~amd64 ~x86"
 IUSE="dri"
 
-RDEPEND="<x11-base/xorg-server-1.13.99[-minimal]
+RDEPEND="<x11-base/xorg-server-1.14.99[-minimal]
 	x11-libs/libXcomposite"
 DEPEND="${RDEPEND}
 	>=dev-util/kbuild-0.1.9998_pre20120806
