@@ -2,9 +2,9 @@
 # Distributed under the terms of the GNU General Public License v2
 # $Header: /var/cvsroot/gentoo-x86/app-i18n/mozc/mozc-1.6.1187.102.ebuild,v 1.2 2013/03/02 19:28:02 hwoarang Exp $
 
-EAPI="3"
-PYTHON_DEPEND="2"
-inherit elisp-common eutils multilib multiprocessing python toolchain-funcs
+EAPI="5"
+PYTHON_COMPAT=( python{2_6,2_7} )
+inherit elisp-common eutils multilib multiprocessing python-any-r1 toolchain-funcs
 
 DESCRIPTION="The Mozc engine for IBus Framework"
 HOMEPAGE="http://code.google.com/p/mozc/"
@@ -30,6 +30,7 @@ RDEPEND="dev-libs/glib:2
 		app-i18n/zinnia
 	)"
 DEPEND="${RDEPEND}
+	${PYTHON_DEPS}
 	virtual/pkgconfig"
 
 BUILDTYPE="${BUILDTYPE:-Release}"
@@ -37,10 +38,6 @@ BUILDTYPE="${BUILDTYPE:-Release}"
 RESTRICT="test"
 
 SITEFILE=50${PN}-gentoo.el
-
-pkg_setup() {
-	python_set_active_version 2
-}
 
 src_unpack() {
 	unpack $(basename ${MOZC_URL})
@@ -66,7 +63,7 @@ src_configure() {
 		export GYP_DEFINES="${GYP_DEFINES} enable_gtk_renderer=0"
 	fi
 
-	V=1 "$(PYTHON)" build_mozc.py gyp ${myconf} || die "gyp failed"
+	V=1 "${PYTHON}" build_mozc.py gyp ${myconf} || die "gyp failed"
 }
 
 src_compile() {
@@ -85,8 +82,8 @@ src_compile() {
 		mytarget="${mytarget} gui/gui.gyp:mozc_tool"
 	fi
 
-	V=1 "$(PYTHON)" build_mozc.py build_tools -c "${BUILDTYPE}" ${myjobs} || die
-	V=1 "$(PYTHON)" build_mozc.py build -c "${BUILDTYPE}" ${mytarget} ${myjobs} || die
+	V=1 "${PYTHON}" build_mozc.py build_tools -c "${BUILDTYPE}" ${myjobs} || die
+	V=1 "${PYTHON}" build_mozc.py build -c "${BUILDTYPE}" ${mytarget} ${myjobs} || die
 
 	if use emacs ; then
 		elisp-compile unix/emacs/*.el || die
@@ -94,7 +91,7 @@ src_compile() {
 }
 
 src_test() {
-	"$(PYTHON)" build_mozc.py runtests -c "${BUILDTYPE}" || die
+	"${PYTHON}" build_mozc.py runtests -c "${BUILDTYPE}" || die
 }
 
 src_install() {
