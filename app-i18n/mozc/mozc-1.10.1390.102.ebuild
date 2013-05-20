@@ -18,13 +18,14 @@ PROTOBUF_URL="http://protobuf.googlecode.com/files/protobuf-${PROTOBUF_VER}.tar.
 GMOCK_URL="https://googlemock.googlecode.com/files/gmock-${GMOCK_VER}.zip"
 GTEST_URL="https://googletest.googlecode.com/files/gtest-${GTEST_VER}.zip"
 JSONCPP_URL="mirror://sourceforge/jsoncpp/jsoncpp-src-${JSONCPP_VER}.tar.gz"
-SRC_URI="${MOZC_URL} ${PROTOBUF_URL}
+SRC_URI="${MOZC_URL}
+	!system-protobuf? ( ${PROTOBUF_URL} )
 	test? ( ${GMOCK_URL} ${GTEST_URL} ${JSONCPP_URL} )"
 
 LICENSE="Apache-2.0 BSD Boost-1.0 ipadic public-domain unicode"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="emacs +ibus +qt4 renderer test"
+IUSE="emacs +ibus +qt4 renderer system-protobuf test"
 
 RDEPEND="dev-libs/glib:2
 	dev-libs/openssl
@@ -39,7 +40,7 @@ RDEPEND="dev-libs/glib:2
 
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
-	~dev-libs/protobuf-2.4.1
+	system-protobuf? ( >=dev-libs/protobuf-2.4.1 )
 	virtual/pkgconfig"
 
 BUILDTYPE="${BUILDTYPE:-Release}"
@@ -51,9 +52,11 @@ SITEFILE=50${PN}-gentoo.el
 src_unpack() {
 	unpack $(basename ${MOZC_URL})
 
-	cd "${S}"/protobuf
-	unpack $(basename ${PROTOBUF_URL})
-	mv protobuf-${PROTOBUF_VER} files || die
+	if ! use system-protobuf; then
+		cd "${S}"/protobuf
+		unpack $(basename ${PROTOBUF_URL})
+		mv protobuf-${PROTOBUF_VER} files || die
+	fi
 
 	if use test; then
 		cd "${S}"/third_party
@@ -67,6 +70,7 @@ src_unpack() {
 
 src_prepare() {
 	epatch "${FILESDIR}"/${P}-drop-Werror.patch
+	epatch "${FILESDIR}"/${P}-use_libprotobuf.patch
 	epatch_user
 }
 
@@ -82,7 +86,9 @@ src_configure() {
 		export GYP_DEFINES="${GYP_DEFINES} enable_gtk_renderer=0"
 	fi
 
-	# export GYP_DEFINES="${GYP_DEFINES} use_libprotobuf=1"
+	if use system-protobuf; then
+		export GYP_DEFINES="${GYP_DEFINES} use_libprotobuf=1"
+	fi
 
 	"${PYTHON}" build_mozc.py gyp ${myconf} || die "gyp failed"
 }
