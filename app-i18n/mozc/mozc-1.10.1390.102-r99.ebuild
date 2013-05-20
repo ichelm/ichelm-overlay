@@ -1,30 +1,23 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/app-i18n/mozc/mozc-1.10.1390.102.ebuild,v 1.2 2013/05/10 05:27:20 naota Exp $
+# $Header: /var/cvsroot/gentoo-x86/app-i18n/mozc/mozc-1.6.1187.102.ebuild,v 1.2 2013/03/02 19:28:02 hwoarang Exp $
 
 EAPI="5"
 PYTHON_COMPAT=( python{2_6,2_7} )
-inherit elisp-common eutils multilib multiprocessing python-single-r1 toolchain-funcs
+inherit elisp-common eutils multilib multiprocessing python-any-r1 toolchain-funcs
 
 DESCRIPTION="The Mozc engine for IBus Framework"
 HOMEPAGE="http://code.google.com/p/mozc/"
 
 PROTOBUF_VER="2.5.0"
-GMOCK_VER="1.6.0"
-GTEST_VER="1.6.0"
-JSONCPP_VER="0.6.0-rc2"
 MOZC_URL="http://mozc.googlecode.com/files/${P}.tar.bz2"
 PROTOBUF_URL="http://protobuf.googlecode.com/files/protobuf-${PROTOBUF_VER}.tar.bz2"
-GMOCK_URL="https://googlemock.googlecode.com/files/gmock-${GMOCK_VER}.zip"
-GTEST_URL="https://googletest.googlecode.com/files/gtest-${GTEST_VER}.zip"
-JSONCPP_URL="mirror://sourceforge/jsoncpp/jsoncpp-src-${JSONCPP_VER}.tar.gz"
-SRC_URI="${MOZC_URL} ${PROTOBUF_URL}
-	test? ( ${GMOCK_URL} ${GTEST_URL} ${JSONCPP_URL} )"
+SRC_URI="${MOZC_URL} ${PROTOBUF_URL}"
 
 LICENSE="Apache-2.0 BSD Boost-1.0 ipadic public-domain unicode"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="emacs +ibus +qt4 renderer test"
+IUSE="emacs +ibus +qt4 renderer"
 
 RDEPEND="dev-libs/glib:2
 	dev-libs/openssl
@@ -35,10 +28,9 @@ RDEPEND="dev-libs/glib:2
 	qt4? (
 		dev-qt/qtgui:4
 		app-i18n/zinnia
-	)
-	${PYTHON_DEPS}"
+	)"
 DEPEND="${RDEPEND}
-	~dev-libs/protobuf-2.4.1
+	${PYTHON_DEPS}
 	virtual/pkgconfig"
 
 BUILDTYPE="${BUILDTYPE:-Release}"
@@ -52,25 +44,15 @@ src_unpack() {
 
 	cd "${S}"/protobuf
 	unpack $(basename ${PROTOBUF_URL})
-	mv protobuf-${PROTOBUF_VER} files || die
-
-	if use test; then
-		cd "${S}"/third_party
-		unpack $(basename ${GMOCK_URL}) $(basename ${GTEST_URL}) \
-			$(basename ${JSONCPP_URL})
-		mv gmock-${GMOCK_VER} gmock || die
-		mv gtest-${GTEST_VER} gtest || die
-		mv jsoncpp-src-${JSONCPP_VER} jsoncpp || die
-	fi
+	mv protobuf-${PROTOBUF_VER} files
 }
 
 src_prepare() {
-	epatch "${FILESDIR}"/${P}-drop-Werror.patch
-	epatch_user
+	epatch "${FILESDIR}/${P}-gcc48.patch"
 }
 
 src_configure() {
-	local myconf="--server_dir=/usr/$(get_libdir)/mozc"
+	local myconf=" --server_dir=/usr/$(get_libdir)/mozc"
 
 	if ! use qt4 ; then
 		myconf+=" --noqt"
@@ -81,9 +63,7 @@ src_configure() {
 		export GYP_DEFINES="${GYP_DEFINES} enable_gtk_renderer=0"
 	fi
 
-	# export GYP_DEFINES="${GYP_DEFINES} use_libprotobuf=1"
-
-	"${PYTHON}" build_mozc.py gyp ${myconf} || die "gyp failed"
+	V=1 "${PYTHON}" build_mozc.py gyp ${myconf} || die "gyp failed"
 }
 
 src_compile() {
@@ -111,8 +91,7 @@ src_compile() {
 }
 
 src_test() {
-	tc-export CC CXX AR AS RANLIB LD
-	V=1 "${PYTHON}" build_mozc.py runtests -c "${BUILDTYPE}" || die
+	"${PYTHON}" build_mozc.py runtests -c "${BUILDTYPE}" || die
 }
 
 src_install() {
