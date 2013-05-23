@@ -25,7 +25,7 @@ SRC_URI="${MOZC_URL}
 LICENSE="Apache-2.0 BSD Boost-1.0 ipadic public-domain unicode"
 SLOT="0"
 KEYWORDS="~amd64 ~x86"
-IUSE="emacs fcitx +ibus +qt4 renderer system-protobuf test"
+IUSE="emacs fcitx +ibus +qt4 renderer system-protobuf test uim"
 
 RDEPEND="dev-libs/glib:2
 	dev-libs/openssl
@@ -37,7 +37,8 @@ RDEPEND="dev-libs/glib:2
 		dev-qt/qtgui:4
 		app-i18n/zinnia
 	)
-	fcitx? ( app-i18n/fcitx )"
+	fcitx? ( app-i18n/fcitx )
+	uim? ( app-i18n/uim )"
 
 DEPEND="${RDEPEND}
 	${PYTHON_DEPS}
@@ -73,6 +74,7 @@ src_prepare() {
 	epatch "${FILESDIR}"/${P}-drop-Werror.patch
 	epatch "${FILESDIR}"/${P}-use_libprotobuf.patch
 	epatch -p1 "${FILESDIR}"/${P}-fcitx.patch
+	epatch -p1 "${FILESDIR}"/${P}-uim.patch
 	epatch_user
 }
 
@@ -107,6 +109,7 @@ src_compile() {
 	use ibus && mytarget="${mytarget} unix/ibus/ibus.gyp:ibus_mozc"
 	use renderer && mytarget="${mytarget} renderer/renderer.gyp:mozc_renderer"
 	use fcitx && mytarget="${mytarget} unix/fcitx/fcitx.gyp:fcitx-mozc"
+	use uim && mytarget="${mytarget} unix/uim/uim.gyp:uim-mozc"
 	if use qt4 ; then
 		export QTDIR="${EPREFIX}/usr"
 		mytarget="${mytarget} gui/gui.gyp:mozc_tool"
@@ -157,7 +160,7 @@ src_install() {
 		doins "unix/fcitx/mozc.conf"
 		insinto /usr/share/fcitx/mozc/icon
 		(
-			cd data/images/unix
+			cd data/images/unix || die
 			newins ime_product_icon_opensource-32.png mozc.png
 			for f in ui-*.png
 			do
@@ -166,6 +169,21 @@ src_install() {
 		)
 		export MOPREFIX="fcitx-mozc"
 		domo out_linux/${BUILDTYPE}/obj/gen/unix/fcitx/po/*.mo
+	fi
+
+	if use uim ; then
+		exeinto "/usr/$(get_libdir)/uim/plugin"
+		doexe "out_linux/${BUILDTYPE}/libuim-mozc.so"
+		insinto "/usr/share/uim"
+		doins unix/uim/scm/*
+		insinto /usr/share/uim/pixmaps
+		(
+			cd data/images/unix || die
+			newins ime_product_icon_opensource-32.png mozc.png
+			newins ui-tool.png mozc_tool_config_dialog.png
+			newins ui-dictionary.png mozc_tool_dictionary.png
+			newins ui-properties.png mozc_tool_selector.png
+		)
 	fi
 
 	exeinto "/usr/$(get_libdir)/mozc" || die
@@ -198,8 +216,22 @@ pkg_postinst() {
 		elog "Having the above settings, just type C-\\ which is bound to"
 		elog "\`toggle-input-method' by default."
 	fi
+
+	if use uim ; then
+		uim-module-manager --register mozc || die
+		elog "mozc uim module is registered now."
+		elog "But every merging app-i18n/uim breaks this registration."
+		elog "Please re-emerge mozc or run following command by hand after uim merge."
+		elog " uim-module-manager --register mozc"
+		if use system-protobuf ; then
+			ewarn "You have enabled both of system-protobuf and uim use flags."
+			ewarn "But dynamicaly linked mozc_tool on uim is known to be broken."
+			ewarn "mozc_tool will be not functional."
+		fi
+	fi
 }
 
 pkg_postrm() {
 	use emacs && elisp-site-regen
+	use uim && uim-module-manager --unregister mozc || die
 }
