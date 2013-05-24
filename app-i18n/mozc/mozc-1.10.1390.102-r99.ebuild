@@ -73,8 +73,9 @@ src_unpack() {
 src_prepare() {
 	epatch "${FILESDIR}"/${P}-drop-Werror.patch
 	epatch "${FILESDIR}"/${P}-use_libprotobuf.patch
-	epatch -p1 "${FILESDIR}"/${P}-fcitx.patch
-	epatch -p1 "${FILESDIR}"/${P}-uim.patch
+	# Conditional patching is evil, fix later.
+	use fcitx && epatch -p1 "${FILESDIR}"/${P}-fcitx.patch
+	use uim  && epatch -p1 "${FILESDIR}"/${P}-uim.patch
 	epatch_user
 }
 
