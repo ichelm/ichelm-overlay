@@ -234,5 +234,7 @@ pkg_postinst() {
 
 pkg_postrm() {
 	use emacs && elisp-site-regen
-	use uim && uim-module-manager --unregister mozc || die
+	if use uim ;
+		then uim-module-manager --unregister mozc || die
+	fi
 }
