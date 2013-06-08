@@ -80,6 +80,13 @@ src_prepare() {
 }
 
 src_configure() {
+	tc-export AR CC CXX
+	tc-export_build_env BUILD_AR BUILD_CC BUILD_CXX
+	export AR_host="$(tc-getBUILD_AR)"
+	export CC_host="$(tc-getBUILD_CC)"
+	export CXX_host="$(tc-getBUILD_CXX)"
+	export LD_host="${CXX_host}"
+
 	local myconf="--server_dir=/usr/$(get_libdir)/mozc"
 
 	if ! use qt4 ; then
@@ -99,8 +106,6 @@ src_configure() {
 }
 
 src_compile() {
-	tc-export CC CXX AR AS RANLIB LD
-
 	local my_makeopts=$(makeopts_jobs)
 	# This is for a safety. -j without a number, makeopts_jobs returns 999.
 	local myjobs=-j${my_makeopts/999/1}
@@ -234,7 +239,7 @@ pkg_postinst() {
 
 pkg_postrm() {
 	use emacs && elisp-site-regen
-	if use uim ;
-		then uim-module-manager --unregister mozc || die
+	if use uim ; then
+		uim-module-manager --unregister mozc || die
 	fi
 }
