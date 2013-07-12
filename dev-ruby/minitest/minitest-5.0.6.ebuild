@@ -25,8 +25,9 @@ IUSE="doc test"
 
 ruby_add_bdepend "
 	doc? ( dev-ruby/hoe dev-ruby/rdoc )
-	test? ( dev-ruby/hoe )
-	ruby_targets_ruby18? ( !!dev-ruby/minitest[ruby_targets_ruby18] )"
+	test? ( dev-ruby/hoe )"
+# 	What is this blocker for?
+#	ruby_targets_ruby18? ( !!dev-ruby/minitest[ruby_targets_ruby18] )"
 
 # There is a nasty bug that tests fail if minitest is loaded already
 # from the system.
