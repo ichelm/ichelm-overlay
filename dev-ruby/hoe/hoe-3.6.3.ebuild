@@ -1,9 +1,9 @@
 # Copyright 1999-2013 Gentoo Foundation
 # Distributed under the terms of the GNU General Public License v2
-# $Header: /var/cvsroot/gentoo-x86/dev-ruby/hoe/hoe-2.13.0.ebuild,v 1.4 2013/01/28 15:15:57 aballier Exp $
+# $Header: $
 
-EAPI=2
-USE_RUBY="ruby18 ruby19 ruby20 jruby"
+EAPI=5
+USE_RUBY="ruby19 ruby20 jruby"
 
 RUBY_FAKEGEM_TASK_DOC="docs"
 
@@ -27,11 +27,10 @@ IUSE=""
 #   test-time, at least for us;
 # - rubyforge is loaded at runtime when needed, so we don't strictly
 #   depend on it at runtime, but we need it for tests (for now);
-ruby_add_bdepend "test? ( dev-ruby/minitest >=dev-ruby/rubyforge-2.0.4 )"
+ruby_add_bdepend "
+	test? (
+		>=dev-ruby/minitest-5.0.6
+		>=dev-ruby/rubyforge-2.0.4
+	)"
 
 ruby_add_rdepend ">=dev-ruby/rake-0.8.7 >=dev-ruby/rdoc-3.10"
-
-all_ruby_prepare() {
-	# Make test regexp more lenient to cover the way we name the binaries.
-	sed -i -e 's/sudo gem/sudo .?gem/' -e 's/\^gem/^.?gem/' test/test_hoe.rb || die
-}
