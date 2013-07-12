@@ -5,10 +5,13 @@
 EAPI=5
 USE_RUBY="ruby19 ruby20 jruby"
 
-RUBY_FAKEGEM_TASK_DOC="docs"
+# Building documentation by "rake docs" fails due to Gem.bin_wrapper issue.
+# See https://github.com/seattlerb/hoe/issues/25
+RUBY_FAKEGEM_RECIPE_DOC="rdoc"
+RUBY_FAKEGEM_DOC_SOURCES="README.txt lib History.txt Manifest.txt README.txt"
 
 RUBY_FAKEGEM_DOCDIR="doc"
-RUBY_FAKEGEM_EXTRADOC="History.txt Manifest.txt README.txt"
+RUBY_FAKEGEM_EXTRADOC="History.txt Hoe.pdf Manifest.txt README.txt"
 
 RUBY_FAKEGEM_EXTRAINSTALL="template"
 
