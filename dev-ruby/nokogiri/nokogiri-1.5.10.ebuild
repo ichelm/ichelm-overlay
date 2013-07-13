@@ -15,7 +15,7 @@ inherit ruby-fakegem eutils multilib
 DESCRIPTION="Nokogiri is an HTML, XML, SAX, and Reader parser."
 HOMEPAGE="http://nokogiri.rubyforge.org/"
 LICENSE="MIT"
-SRC_URI="https://github.com/sparklemotion/nokogiri/archive/v${PV}.tar.gz"
+SRC_URI="https://github.com/sparklemotion/nokogiri/archive/v${PV}.tar.gz -> ${P}.tar.gz"
 
 KEYWORDS="alpha ~arm amd64 hppa ia64 ppc ppc64 sparc x86 ~x86-fbsd ~amd64-linux ~x86-linux ~ppc-macos ~x64-macos ~x86-macos ~sparc-solaris ~sparc64-solaris ~x64-solaris ~x86-solaris"
 SLOT="0"
