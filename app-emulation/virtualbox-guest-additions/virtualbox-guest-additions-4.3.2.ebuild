@@ -7,7 +7,7 @@ EAPI=5
 inherit eutils linux-mod systemd udev user
 
 MY_PV="${PV/beta/BETA}"
-MY_PV="${PV/rc/RC}"
+MY_PV="${MY_PV/rc/RC}"
 MY_P=VirtualBox-${MY_PV}
 DESCRIPTION="VirtualBox kernel modules and user-space tools for Gentoo guests"
 HOMEPAGE="http://www.virtualbox.org/"
@@ -52,6 +52,8 @@ pkg_setup() {
 		BUILD_PARAMS="KERN_DIR=${KV_OUT_DIR} KERNOUT=${KV_OUT_DIR}"
 		enewgroup vboxguest
 		enewuser vboxguest -1 /bin/sh /dev/null vboxguest
+		# automount Error: VBoxServiceAutoMountWorker: Group "vboxsf" does not exist
+		enewgroup vboxsf
 }
 
 src_unpack() {
@@ -83,9 +85,6 @@ src_prepare() {
 				"${WORKDIR}/${mdir}/${vboxheader}"
 		done
 	done
-
-	# Fix split kernels includes
-	sed -i 's@\<kernelpath\>\(.*/generated\>\)@VBOX_LINUX_SRC\1@' "${S}"/Config.kmk
 }
 
 src_configure() {
@@ -95,7 +94,6 @@ src_configure() {
 		--disable-sdl-ttf \
 		--disable-pulse \
 		--disable-alsa \
-		--with-linux=${KV_OUT_DIR} \
 		--build-headless || die "configure failed"
 }
 
@@ -106,7 +104,8 @@ src_compile() {
 		/src/VBox/Additions/linux/{sharedfolders,daemon} ; do
 				cd "${S}"${each}
 				MAKE="kmk" emake TOOL_YASM_AS=yasm \
-				KBUILD_PATH="${S}/kBuild"
+				KBUILD_PATH="${S}/kBuild" \
+				KBUILD_VERBOSE=2
 		done
 
 		if use X; then
@@ -151,7 +150,7 @@ src_install() {
 		fi
 
 		# udev rule for vboxdrv
-		dodir "$(get_udevdir)"/rules.d
+		dodir "$(get_udevdir)/rules.d"
 		echo 'KERNEL=="vboxguest", OWNER="vboxguest", GROUP="vboxguest", MODE="0660"' \
 		>> "${D}/$(get_udevdir)/rules.d/60-virtualbox-guest-additions.rules" \
 			|| die
@@ -179,6 +178,9 @@ pkg_postinst() {
 		elog ""
 		elog "Please add users to the \"vboxguest\" group so they can"
 		elog "benefit from seamless mode, auto-resize and clipboard."
+		elog ""
+		elog "The vboxsf group has been added to make automount services work."
+		elog "These services are part of the shared folders support."
 		elog ""
 		elog "Please add:"
 		elog "/etc/init.d/${PN}"
