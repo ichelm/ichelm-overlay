@@ -87,21 +87,22 @@ src_configure() {
 	export LD_host="${CXX_host}"
 
 	local myconf="--server_dir=/usr/$(get_libdir)/mozc"
+	export GYP_DEFINES+="ibus_mozc_path=/usr/libexec/ibus-engine-mozc "
 
 	if ! use qt4 ; then
 		myconf+=" --noqt"
-		export GYP_DEFINES+="use_libzinnia=0"
+		export GYP_DEFINES+="use_libzinnia=0 "
 	fi
 
 	if ! use renderer ; then
-		export GYP_DEFINES+="enable_gtk_renderer=0"
+		export GYP_DEFINES+="enable_gtk_renderer=0 "
 	fi
 
 	if use system-protobuf; then
-		export GYP_DEFINES+="use_libprotobuf=1"
+		export GYP_DEFINES+="use_libprotobuf=1 "
 	fi
 
-	export GYP_DEFINES+="zinnia_model_file=/usr/$(get_libdir)/zinnia/model/tomoe/handwriting.ja.model"
+	export GYP_DEFINES+="zinnia_model_file=/usr/$(get_libdir)/zinnia/model/tomoe/handwriting.ja.model "
 
 	"${PYTHON}" build_mozc.py gyp ${myconf} || die "gyp failed"
 }
