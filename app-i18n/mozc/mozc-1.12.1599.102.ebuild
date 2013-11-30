@@ -102,7 +102,7 @@ src_configure() {
 		export GYP_DEFINES+="use_libprotobuf=1 "
 	fi
 
-	export GYP_DEFINES+="zinnia_model_file=/usr/$(get_libdir)/zinnia/model/tomoe/handwriting.ja.model "
+	export GYP_DEFINES+="zinnia_model_file=/usr/$(get_libdir)/zinnia/model/tomoe/handwriting-ja.model "
 
 	"${PYTHON}" build_mozc.py gyp ${myconf} || die "gyp failed"
 }
