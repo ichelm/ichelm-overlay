@@ -1,0 +1,12 @@
+diff --git a/configure.ac b/configure.ac
+index 8625fe9..cb603c6 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -110,6 +110,7 @@ AC_CHECK_DECL(MAP_ANONYMOUS,[],
+ 		#include <sys/mman.h>
+ 	]])
+ 
++AC_CHECK_LIB([m],[atan2])
+ 
+ AC_DEFINE(MICROCAI_WITHEMAIL,"microcai@fedoraproject.org",[author microcai and his email])
+ # OUTPUT files
